@@ -1,57 +1,42 @@
 package org.tutorial.service.impl;
 
-import java.time.LocalDate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.tutorial.dao.EmpDAO;
+import org.tutorial.model.entity.EmpDO;
+import org.tutorial.service.EmpService;
 import java.util.List;
 
-import org.tutorial.dao.EmpDAO;
-import org.tutorial.dao.impl.EmpDAOImpl;
-import org.tutorial.model.EmpDO;
-import org.tutorial.service.EmpService;
+@Service
 
 public class EmpServiceImpl implements EmpService {
-
+    @Autowired
     private EmpDAO dao;
-
-    public EmpServiceImpl() {
-        dao = new EmpDAOImpl();
-    }
+//    public EmpServiceImpl() {
+//        dao = new EmpDAOImpl();
+//    }
 
     @Override
-    public EmpDO addEmp(String ename, String job, LocalDate hiredate,
-                        Double sal, Double comm, Integer deptno) {
-
-        EmpDO empDO = new EmpDO();
-
-        empDO.setEname(ename);
-        empDO.setJob(job);
-        empDO.setHiredate(hiredate);
-        empDO.setSal(sal);
-        empDO.setComm(comm);
-        empDO.setDeptno(deptno);
+    @Transactional
+    public EmpDO addEmp(EmpDO empDO) {
         dao.insert(empDO);
 
         return empDO;
     }
 
     @Override
-    public EmpDO updateEmp(Integer empno, String ename, String job,
-                           LocalDate hiredate, Double sal, Double comm, Integer deptno) {
+    @Transactional
+    public EmpDO updateEmp(EmpDO empDO) {
 
-        EmpDO empDO = new EmpDO();
 
-        empDO.setEmpno(empno);
-        empDO.setEname(ename);
-        empDO.setJob(job);
-        empDO.setHiredate(hiredate);
-        empDO.setSal(sal);
-        empDO.setComm(comm);
-        empDO.setDeptno(deptno);
         dao.update(empDO);
 
-        return dao.findByPrimaryKey(empno);
+        return dao.findByPrimaryKey(empDO.getEmpno());
     }
 
     @Override
+    @Transactional
     public void deleteEmp(Integer empno) {
         dao.delete(empno);
     }

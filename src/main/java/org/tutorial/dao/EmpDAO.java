@@ -1,8 +1,7 @@
 package org.tutorial.dao;
 
+import org.tutorial.model.entity.EmpDO;
 import java.util.List;
-
-import org.tutorial.model.EmpDO;
 
 public interface EmpDAO {
 

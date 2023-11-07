@@ -1,9 +1,8 @@
 package org.tutorial.service;
 
+import org.tutorial.model.entity.DeptDO;
+import org.tutorial.model.entity.EmpDO;
 import java.util.List;
-
-import org.tutorial.model.DeptDO;
-import org.tutorial.model.EmpDO;
 
 public interface DeptService {
 
@@ -11,7 +10,7 @@ public interface DeptService {
 
     DeptDO getOneDept(Integer deptno);
 
-    DeptDO update(Integer deptno, String dname, String loc);
+    DeptDO update(DeptDO deptDO);
 
     List<EmpDO> getEmpsByDeptno(Integer deptno);
 

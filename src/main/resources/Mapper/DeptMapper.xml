@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tutorial.Mapper.DeptMapper">
+    <insert id="insert">
+        <!--        insert into MEMBER(USERNAME, PASSWORD, NICKNAME, ROLE_ID)-->
+        <!--        values(#{username}, #{password}, #{nickname}, #{roleid})-->
+        INSERT INTO dept2 (dname,loc)
+        VALUES (#{dname}, #{loc})
+    </insert>
+
+    <delete id="delete">
+        <!--        delete from MEMBER where ID = #{id}-->
+        begin
+        DELETE FROM emp2 where deptno = #{deptno}
+        DELETE FROM emp2 where deptno = #{deptno}
+        end
+    </delete>
+
+    <update id="update">
+        <!--        update MEMBER-->
+        <!--        set-->
+        <!--        <if test="password != null and password != ''">-->
+        <!--            PASSWORD = #{password},-->
+        <!--        </if>-->
+        <!--        <if test="image != null">-->
+        <!--            IMAGE = #{image},-->
+        <!--        </if>-->
+        <!--        NICKNAME = #{nickname},-->
+        <!--        PASS = #{pass},-->
+        <!--        ROLE_ID = #{roleId},-->
+        <!--        UPDATER = #{updater},-->
+        <!--        LAST_UPDATED_DATE = NOW()-->
+        <!--        where USERNAME = #{username}-->
+        UPDATE dept2
+        set
+        dname=#{Dname}, loc=#{loc}
+        where deptno = #{deptno}
+
+    </update>
+    <select id="findByPrimaryKey" resultType="org.tutorial.model.entity.DeptDO">
+        <!--        select * from MEMBER where ID = #{id}-->
+        SELECT deptno , dname, loc FROM dept2 where deptno = #{deptno}
+    </select>
+    <select id="getAll" resultType="org.tutorial.model.entity.DeptDO">
+<!--        select * from MEMBER order by ID-->
+        SELECT DEPTNO,DNAME,LOC FROM dept2
+    </select>
+    <select id="getEmpsByDeptno" resultType="org.tutorial.model.entity.DeptDO">
+<!--        select * from MEMBER where USERNAME = #{username}-->
+        SELECT EMPNO,ENAME,JOB,HIREDATE,SAL,COMM,DEPTNO FROM emp2 where DEPTNO = #{deptno} order by EMPNO
+    </select>
+</mapper>

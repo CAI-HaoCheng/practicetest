@@ -1,20 +1,24 @@
 package org.tutorial.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.tutorial.dao.DeptDAO;
+import org.tutorial.model.entity.DeptDO;
+import org.tutorial.model.entity.EmpDO;
+import org.tutorial.service.DeptService;
 import java.util.List;
 
-import org.tutorial.dao.DeptDAO;
-import org.tutorial.dao.impl.DeptDAOImpl;
-import org.tutorial.model.DeptDO;
-import org.tutorial.model.EmpDO;
-import org.tutorial.service.DeptService;
-
+@Service
+@Transactional
 public class DeptServiceImpl implements DeptService {
-
+    @Autowired
     private DeptDAO dao;
 
-    public DeptServiceImpl() {
-        dao = new DeptDAOImpl();
-    }
+//    @Autowired
+//    public DeptServiceImpl() {
+//        dao = new DeptDAOImpl();
+//    }
 
     @Override
     public List<DeptDO> getAll() {
@@ -27,13 +31,10 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public DeptDO update(Integer deptno, String dname, String loc) {
-        DeptDO deptDO = new DeptDO();
-        deptDO.setDeptno(deptno);
-        deptDO.setDname(dname);
-        deptDO.setLoc(loc);
+    public DeptDO update(DeptDO deptDO) {
+
         dao.update(deptDO);
-        return dao.findByPrimaryKey(deptno);
+        return dao.findByPrimaryKey(deptDO.getDeptno());
     }
 
     @Override
