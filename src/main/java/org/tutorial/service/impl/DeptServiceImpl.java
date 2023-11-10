@@ -3,7 +3,7 @@ package org.tutorial.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.tutorial.dao.DeptDAO;
+import org.tutorial.Mapper.DeptMapper;
 import org.tutorial.model.entity.DeptDO;
 import org.tutorial.model.entity.EmpDO;
 import org.tutorial.service.DeptService;
@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public class DeptServiceImpl implements DeptService {
     @Autowired
-    private DeptDAO dao;
+    private DeptMapper mapper;
 
 //    @Autowired
 //    public DeptServiceImpl() {
@@ -22,29 +22,34 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public List<DeptDO> getAll() {
-        return dao.getAll();
+        return mapper.getAll();
     }
 
     @Override
     public DeptDO getOneDept(Integer deptno) {
-        return dao.findByPrimaryKey(deptno);
+        return mapper.findByPrimaryKey(deptno);
     }
 
     @Override
     public DeptDO update(DeptDO deptDO) {
 
-        dao.update(deptDO);
-        return dao.findByPrimaryKey(deptDO.getDeptno());
+        mapper.update(deptDO);
+        return mapper.findByPrimaryKey(deptDO.getDeptno());
     }
 
     @Override
     public List<EmpDO> getEmpsByDeptno(Integer deptno) {
-        return dao.getEmpsByDeptno(deptno);
+        return mapper.getEmpsByDeptno(deptno);
     }
 
     @Override
     public void deleteDept(Integer deptno) {
-        dao.delete(deptno);
+        mapper.delete(deptno);
+    }
+
+    @Override
+    public List<DeptDO> getAlls() {
+        return mapper.getAlls();
     }
 
 }

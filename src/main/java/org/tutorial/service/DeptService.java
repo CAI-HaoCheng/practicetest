@@ -15,5 +15,6 @@ public interface DeptService {
     List<EmpDO> getEmpsByDeptno(Integer deptno);
 
     void deleteDept(Integer deptno);
+    List<DeptDO> getAlls();
 
 }

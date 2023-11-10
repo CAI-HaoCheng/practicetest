@@ -14,5 +14,6 @@ public interface EmpService {
     EmpDO getOneEmp(Integer empno);
 
     List<EmpDO> getAll();
+    List<EmpDO> getAlls();
 
 }

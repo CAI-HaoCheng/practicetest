@@ -3,16 +3,15 @@ package org.tutorial.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.tutorial.dao.EmpDAO;
+import org.tutorial.Mapper.EmpMapper;
 import org.tutorial.model.entity.EmpDO;
 import org.tutorial.service.EmpService;
 import java.util.List;
 
 @Service
-
 public class EmpServiceImpl implements EmpService {
     @Autowired
-    private EmpDAO dao;
+    private EmpMapper mapper;
 //    public EmpServiceImpl() {
 //        dao = new EmpDAOImpl();
 //    }
@@ -20,7 +19,7 @@ public class EmpServiceImpl implements EmpService {
     @Override
     @Transactional
     public EmpDO addEmp(EmpDO empDO) {
-        dao.insert(empDO);
+        mapper.insert(empDO);
 
         return empDO;
     }
@@ -30,25 +29,29 @@ public class EmpServiceImpl implements EmpService {
     public EmpDO updateEmp(EmpDO empDO) {
 
 
-        dao.update(empDO);
+        mapper.update(empDO);
 
-        return dao.findByPrimaryKey(empDO.getEmpno());
+        return mapper.findByPrimaryKey(empDO.getEmpno());
     }
 
     @Override
     @Transactional
     public void deleteEmp(Integer empno) {
-        dao.delete(empno);
+        mapper.delete(empno);
     }
 
     @Override
     public EmpDO getOneEmp(Integer empno) {
-        return dao.findByPrimaryKey(empno);
+        return mapper.findByPrimaryKey(empno);
     }
 
     @Override
     public List<EmpDO> getAll() {
-        return dao.getAll();
+        return mapper.getAll();
+    }
+    @Override
+    public List<EmpDO> getAlls() {
+        return mapper.getAllEmps();
     }
 
 }

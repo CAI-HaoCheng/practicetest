@@ -28,6 +28,7 @@ public class DeptController {
         List<DeptVO> deptVOs = transformDeptVOs(deptDOs);
         model.addAttribute("deptVOS", deptVOs);
         return "dept/listAll";
+
     }
 
     @PostMapping("/dept/listEmps_ByDeptno_A")

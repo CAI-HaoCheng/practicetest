@@ -27,7 +27,7 @@ public class EmpController {
 
     @GetMapping("/emp/listAll")
     public String listAll(Model model) {
-        List<EmpDO> empDOS = empservice.getAll();
+        List<EmpDO> empDOS = empservice.getAlls();
         model.addAttribute("empVOs", transformEmpVOs(empDOS));
         return "emp/listAll";
     }
@@ -65,7 +65,7 @@ public class EmpController {
     @PostMapping("emp/getOne_For_Update")
     public String showUpdatePage(Model model, Integer empno) {
         EmpDO empDO = empservice.getOneEmp(empno);
-        List<DeptDO> deptDOS = deptService.getAll();
+        List<DeptDO> deptDOS = deptService.getAlls();
         model.addAttribute("deptVOs", transformDeptVOs(deptDOS));
         model.addAttribute("empVO", transformEmpVO(empDO));
         return "emp/update";
@@ -97,6 +97,7 @@ public class EmpController {
     }
 
     private EmpVO transformEmpVO(EmpDO empDO) {
+
         EmpVO empVO = new EmpVO();
         empVO.setEmpno(empDO.getEmpno());
         empVO.setEname(empDO.getEname());
@@ -117,9 +118,10 @@ public class EmpController {
         empDO.setHiredate(LocalDate.parse(empVO.getHiredate()));
         empDO.setSal(empVO.getSal());
         empDO.setComm(empVO.getComm());
-        DeptDO deptDO = new DeptDO();
-        deptDO.setDeptno(empVO.getDeptno());
-        empDO.setDeptDO(deptDO);
+        empDO.setDeptno(empVO.getDeptno());
+//        DeptDO deptDO = new DeptDO();
+//        deptDO.setDeptno(empVO.getDeptno());
+//        empDO.setDeptDO(deptDO);
         return empDO;
     }
 

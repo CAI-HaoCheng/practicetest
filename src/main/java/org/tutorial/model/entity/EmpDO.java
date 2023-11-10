@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -34,8 +32,9 @@ public class EmpDO implements Serializable {
     private LocalDate hiredate;
     private Double sal;
     private Double comm;
-    @ManyToOne
-    @JoinColumn(name = "DEPTNO")
+    private Integer deptno;
+    //    @ManyToOne
+//    @JoinColumn(name = "DEPTNO")
     private DeptDO deptDO;
 
 }

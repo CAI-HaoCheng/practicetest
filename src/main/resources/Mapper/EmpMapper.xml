@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.tutorial.Mapper.DeptMapper"> <!-- 自建interface的路徑 -->
-            <!--  多對一 resulMap配置  -->
+<mapper namespace="org.tutorial.Mapper.EmpMapper"> <!-- 自建interface的路徑 -->
+    <!--  多對一 resulMap配置  -->
     <resultMap type="EmpDO" id="resultEmp"> <!-- type=Entity名稱  id=自訂義名稱-->
         <id property="empno" column="empno"/> <!-- property=實體變數名稱 column=自訂義欄位名稱 -->
         <result property="ename" column="ename"/>
@@ -28,55 +28,46 @@
         </association>
 
     </resultMap>
-                <!-- 一對多 resultMap配置 -->
+    <!-- 一對多 resultMap配置 -->
     <resultMap type="DeptDO" id="resultDept">
         <result property="deptno" column="deptno"/>
         <result property="dname" column="dname"/>
         <result property="loc" column="loc"/>
-        <collection property="empDOs" ofType="EmpDO">
-            <id property="empno" column="empno"/>
-            <result property="ename" column="ename" />
-            <result property="job" column="job" />
-            <result property="hiredate" column="hiredate" />
-            <result property="sal" column="sal"/>
-            <result property="comm" column="comm" />
-            <result property="deptno" column="deptno"/>
+        <collection property="empDOs" ofType="EmpDO" column="deptno"
+                    select="org.tutorial.Mapper.DeptMapper.getAll">
+            <id property="empno" column="empno" javaType="int" jdbcType="INTEGER"/>
+            <result property="ename" column="ename" javaType="string" jdbcType="VARCHAR"/>
+            <result property="job" column="job" javaType="string" jdbcType="VARCHAR"/>
+            <result property="hiredate" column="hiredate" javaType="date" jdbcType="DATE"/>
+            <result property="sal" column="sal" javaType="double" jdbcType="FLOAT"/>
+            <result property="comm" column="comm" javaType="double" jdbcType="FLOAT"/>
+            <result property="deptno" column="deptno" javaType="int" jdbcType="INTEGER"/>
         </collection>
     </resultMap>
     <!-- select查詢 id=與interface方法名稱相同 使用一對多或多對一必須要加resultMap=自己建立的resultMap_id  -->
     <!--  使用原本Entity resultType=Entity名稱  -->
-    <select id="getAlls" resultMap="resultDept">
+    <select id="getAllEmps" resultMap="testEmp">
         SELECT
         e.*,p.*
-        FROM dept2 e
-        join emp2 p ON e.deptno = p.deptno
+        FROM emp2 e
+        join dept2 p ON e.deptno = p.deptno
     </select>
-    <!--  insert新增  -->
     <insert id="insert">
-
-        INSERT INTO dept2 (dname,loc)
-        VALUES (#{dname}, #{loc})
-        <!--  #{參數變數為實體變數名稱}    -->
+        INSERT INTO emp2 (ename,job,hiredate,sal,comm,deptno)
+        VALUES (#{ename}, #{job}, #{hiredate}, #{sal}, #{comm}, #{deptno})
     </insert>
-    <!--  刪除delete  -->
     <delete id="delete">
-        DELETE FROM dept2 where deptno = #{deptno}
+        DELETE FROM emp2 where empno = #{empno}
     </delete>
-    <!--  更新update  -->
     <update id="update">
-        UPDATE dept2
-        set
-        dname=#{dname}, loc=#{loc}
-        where deptno = #{deptno}
+        UPDATE emp2 set ename=#{ename}, job=#{job}, hiredate=#{hiredate}, sal=#{sal}, comm=#{comm}, deptno=#{deptno}
+        where empno = #{empno}
     </update>
-    <select id="findByPrimaryKey" resultType="org.tutorial.model.entity.DeptDO">
-        SELECT deptno , dname, loc FROM dept2 where deptno = #{deptno}
+    <select id="findByPrimaryKey" resultMap="testEmp">
+        SELECT * FROM emp2 e JOIN dept2 p ON e.deptno = p.deptno where empno = #{empno}
     </select>
-    <select id="getAll" resultMap="resultDept">
-        SELECT deptno,dname,loc FROM dept2
-    </select>
-    <select id="getEmpsByDeptno" resultMap="testEmp">
-        SELECT * FROM emp2 e JOIN dept2 p ON e.deptno = p.deptno WHERE p.deptno = #{deptno} ORDER BY empno
+    <select id="getAll" resultType="EmpDO">
+        SELECT * FROM emp2 order by empno
     </select>
 
 

@@ -1,12 +1,12 @@
-package org.tutorial.dao;
+package org.tutorial.Mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.tutorial.model.entity.DeptDO;
 import org.tutorial.model.entity.EmpDO;
 import java.util.List;
 
-
-public interface DeptDAO {
-
+@Mapper
+public interface DeptMapper {
     void insert(DeptDO deptDO);
 
     void update(DeptDO deptDO);
@@ -20,5 +20,8 @@ public interface DeptDAO {
     List<EmpDO> getEmpsByDeptno(Integer deptno);
 
     List<DeptDO> findByCriteria(DeptDO deptDO);
+
+    List<DeptDO> getAlls();
+
 
 }

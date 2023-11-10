@@ -14,6 +14,7 @@ public class EmpServiceImplTest extends TestCase {
     }
 
     public void testGetOneEmp() {
+
     }
 
     public void testGetAll() {

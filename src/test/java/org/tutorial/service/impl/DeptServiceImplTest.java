@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 public class DeptServiceImplTest extends TestCase {
 
     public void testGetAll() {
+
     }
 
     public void testGetOneDept() {
