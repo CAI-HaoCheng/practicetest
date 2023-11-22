@@ -1,5 +1,9 @@
 package org.tutorial.controller;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +17,6 @@ import org.tutorial.model.entity.EmpDO;
 import org.tutorial.model.vo.DeptVO;
 import org.tutorial.model.vo.EmpVO;
 import org.tutorial.service.DeptService;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class DeptController {
@@ -32,14 +33,14 @@ public class DeptController {
     }
 
     @PostMapping("/dept/listEmps_ByDeptno_A")
-    public String listEmpByDeptnoA(Model model, Integer deptno) {
+    public String listEmpByDeptnoA(Model model, Long deptno) {
         List<EmpDO> empDOS = service.getEmpsByDeptno(deptno);
         model.addAttribute("listEmps_ByDeptno", transformEmpVOs(empDOS));
         return "dept/listEmpsByDeptno";
     }
 
     @GetMapping("/dept/listEmps_ByDeptno_B/{deptno}")
-    public ModelAndView listEmpsByDeptnoB(@PathVariable("deptno") Integer deptno) {
+    public ModelAndView listEmpsByDeptnoB(@PathVariable("deptno") Long deptno) {
         ModelAndView modelAndView = new ModelAndView();
         List<DeptDO> deptDOS = service.getAll();
         List<EmpDO> empDOS = service.getEmpsByDeptno(deptno);
@@ -50,7 +51,7 @@ public class DeptController {
     }
 
     @PostMapping("/dept/getOne_For_Update_Dept")
-    public String getOneForUpdateDept(Model model, Integer deptno) {
+    public String getOneForUpdateDept(Model model, Long deptno) {
         DeptDO deptDO = service.getOneDept(deptno);
         DeptVO deptVO = transformDpetVO(deptDO);
         model.addAttribute("deptVO", deptVO);
@@ -65,8 +66,9 @@ public class DeptController {
         model.addAttribute("deptVO", transformDpetVO(updateDeptDO));
         return "dept/listOne";
     }
+
     @PostMapping("/dept/delete_Dept")
-    private String deleteDept(Integer deptno){
+    private String deleteDept(Long deptno) {
         service.deleteDept(deptno);
         return "redirect:/dept/listAll";
     }

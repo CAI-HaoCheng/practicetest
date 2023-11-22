@@ -1,5 +1,7 @@
 package org.tutorial.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,11 +9,10 @@ import org.tutorial.Mapper.DeptMapper;
 import org.tutorial.model.entity.DeptDO;
 import org.tutorial.model.entity.EmpDO;
 import org.tutorial.service.DeptService;
-import java.util.List;
-
 @Service
 @Transactional
 public class DeptServiceImpl implements DeptService {
+
     @Autowired
     private DeptMapper mapper;
 
@@ -26,7 +27,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public DeptDO getOneDept(Integer deptno) {
+    public DeptDO getOneDept(Long deptno) {
         return mapper.findByPrimaryKey(deptno);
     }
 
@@ -38,13 +39,13 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<EmpDO> getEmpsByDeptno(Integer deptno) {
+    public List<EmpDO> getEmpsByDeptno(Long deptno) {
         return mapper.getEmpsByDeptno(deptno);
     }
 
     @Override
-    public void deleteDept(Integer deptno) {
-        mapper.delete(deptno);
+    public void deleteDept(Long deptno) {
+        mapper.deleteById(deptno);
     }
 
     @Override

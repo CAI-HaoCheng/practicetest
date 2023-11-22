@@ -1,12 +1,13 @@
 package org.tutorial.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tutorial.Mapper.EmpMapper;
 import org.tutorial.model.entity.EmpDO;
 import org.tutorial.service.EmpService;
-import java.util.List;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -36,12 +37,12 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     @Transactional
-    public void deleteEmp(Integer empno) {
+    public void deleteEmp(Long empno) {
         mapper.delete(empno);
     }
 
     @Override
-    public EmpDO getOneEmp(Integer empno) {
+    public EmpDO getOneEmp(Long empno) {
         return mapper.findByPrimaryKey(empno);
     }
 

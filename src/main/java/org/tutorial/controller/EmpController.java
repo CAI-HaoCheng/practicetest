@@ -1,5 +1,11 @@
 package org.tutorial.controller;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +18,6 @@ import org.tutorial.model.vo.DeptVO;
 import org.tutorial.model.vo.EmpVO;
 import org.tutorial.service.DeptService;
 import org.tutorial.service.EmpService;
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class EmpController {
@@ -33,7 +34,7 @@ public class EmpController {
     }
 
     @PostMapping("emp/getOne_For_Display")
-    public String listOne(Model model, Integer empno) {
+    public String listOne(Model model, Long empno) {
         EmpDO empDO = empservice.getOneEmp(empno);
         model.addAttribute("empVO", transformEmpVO(empDO));
         return "emp/listOne";
@@ -63,7 +64,7 @@ public class EmpController {
     }
 
     @PostMapping("emp/getOne_For_Update")
-    public String showUpdatePage(Model model, Integer empno) {
+    public String showUpdatePage(Model model, Long empno) {
         EmpDO empDO = empservice.getOneEmp(empno);
         List<DeptDO> deptDOS = deptService.getAlls();
         model.addAttribute("deptVOs", transformDeptVOs(deptDOS));
@@ -78,7 +79,7 @@ public class EmpController {
         return "emp/listOne";
     }
     @PostMapping("/emp/delete")
-    public String delete(Integer empno){
+    public String delete(Long empno){
         empservice.deleteEmp(empno);
         return "redirect:/emp/listAll";
     }

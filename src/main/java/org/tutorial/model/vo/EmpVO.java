@@ -3,14 +3,15 @@ package org.tutorial.model.vo;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Setter
 @Getter
 public class EmpVO implements Serializable {
-    private Integer empno;
+    private Long empno;
     @NotBlank(message = "請輸入員工姓名")
     private String ename;
     private String job;
@@ -20,6 +21,6 @@ public class EmpVO implements Serializable {
     private Double sal;
     @NotNull(message = "請輸入獎金")
     private Double comm;
-    private Integer deptno;
+    private Long deptno;
     private DeptVO deptVO;
 }

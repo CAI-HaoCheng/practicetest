@@ -50,7 +50,7 @@
         SELECT
         e.*,p.*
         FROM emp2 e
-        join dept2 p ON e.deptno = p.deptno
+        join dept2 p ON e.deptno = p.deptno ORDER BY empno
     </select>
     <insert id="insert">
         INSERT INTO emp2 (ename,job,hiredate,sal,comm,deptno)
@@ -67,7 +67,7 @@
         SELECT * FROM emp2 e JOIN dept2 p ON e.deptno = p.deptno where empno = #{empno}
     </select>
     <select id="getAll" resultType="EmpDO">
-        SELECT * FROM emp2 order by empno
+        SELECT * FROM emp2 ORDER BY empno
     </select>
 
 

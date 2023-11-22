@@ -1,20 +1,20 @@
 package org.tutorial.service;
 
-import org.tutorial.model.entity.DeptDO;
-import org.tutorial.model.entity.EmpDO;
 import java.util.List;
 
+import org.tutorial.model.entity.DeptDO;
+import org.tutorial.model.entity.EmpDO;
 public interface DeptService {
 
     List<DeptDO> getAll();
 
-    DeptDO getOneDept(Integer deptno);
+    DeptDO getOneDept(Long deptno);
 
     DeptDO update(DeptDO deptDO);
 
-    List<EmpDO> getEmpsByDeptno(Integer deptno);
+    List<EmpDO> getEmpsByDeptno(Long deptno);
 
-    void deleteDept(Integer deptno);
+    void deleteDept(Long deptno);
     List<DeptDO> getAlls();
 
 }

@@ -1,7 +1,8 @@
 package org.tutorial.service;
 
-import org.tutorial.model.entity.EmpDO;
 import java.util.List;
+
+import org.tutorial.model.entity.EmpDO;
 
 public interface EmpService {
 
@@ -9,9 +10,9 @@ public interface EmpService {
 
     EmpDO updateEmp(EmpDO empDO);
 
-    void deleteEmp(Integer empno);
+    void deleteEmp(Long empno);
 
-    EmpDO getOneEmp(Integer empno);
+    EmpDO getOneEmp(Long empno);
 
     List<EmpDO> getAll();
     List<EmpDO> getAlls();

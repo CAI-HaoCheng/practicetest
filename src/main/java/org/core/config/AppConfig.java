@@ -1,41 +1,62 @@
 package org.core.config;
 
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jndi.JndiObjectFactoryBean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.tutorial.model.entity.DeptDO;
-import org.tutorial.model.entity.EmpDO;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 
 @Configuration //Spring config
-@ComponentScan("org.tutorial") // Spring 掃描託管整個路徑依照專案路徑決定
+@ComponentScan(basePackages = {"org.tutorial", "org.core.config"}) // Spring 掃描託管整個路徑依照專案路徑決定
 @MapperScan("org.tutorial.Mapper") // Mybatis Mapper掃描託管依照專案路徑決定，這裡路徑只要到有Mapper的Package
 @EnableTransactionManagement // Spring 啟動註解管理，相當於xml的<tx:annotation-driven/>
+@PropertySource("classpath:db.properties")
 public class AppConfig {
     // JNDI dataSource來源設定
+    private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
+    @Value("${spring.datasource.url}")
+    private String jdbcUrl;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+    @Value("${spring.datasource.driver-class-name}")
+    private String DriverClassName;
+
+
     @Bean
     public DataSource dataSource()
             throws IllegalArgumentException, NamingException {
-        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
-        bean.setResourceRef(true);
-        bean.setJndiName("jdbc/practice"); // jdbc/資料庫來源名稱
-        bean.afterPropertiesSet();
-        return (DataSource) bean.getObject();
+        // JNDI版本
+//        JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+//        bean.setResourceRef(true);
+//        bean.setJndiName("jdbc/practice"); // jdbc/資料庫來源名稱
+//        bean.afterPropertiesSet();
+//        return (DataSource) bean.getObject();
+
+//        JDBC版本
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl(jdbcUrl);
+        dataSource.setDriverClassName(DriverClassName);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
     }
 //  Hibernate 資料庫來源 設定檔
 //    @Bean
@@ -67,34 +88,21 @@ public class AppConfig {
     // Mybaits 資料庫來源設定檔 sqlSessionFactory()
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
-        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setMapperLocations(MapperLocation());// Mapper設定檔也必須要設定上去
-        sessionFactory.setTypeAliases(DeptDO.class, EmpDO.class);// 一定要設定上去否則找不到Entity
+        sessionFactory.setMapperLocations(resolver.getResources("classpath*:Mapper/*"));// Mapper設定檔也必須要設定上去
+        sessionFactory.setTypeAliasesPackage("org.tutorial.model.entity");// 一定要設定上去否則找不到Entity
         return sessionFactory.getObject();
     }
 
-    // 設定Mapper設定檔位置
-    public Resource[] MapperLocation() {
-        ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
-        List<String> mapperLocations = new ArrayList<>();
-        mapperLocations.add("classpath*:Mapper/DeptMapper.xml");//若要設定多個只要在加add及檔案位置， classpath:從resources開始
-        mapperLocations.add("classpath*:Mapper/EmpMapper.xml");//若要設定多個只要在加add及檔案位置， classpath:從resources開始
-        List<Resource> resources = new ArrayList();
-        if (mapperLocations != null) {
-            for (String mapperLocation : mapperLocations) {
-                try {
-                    Resource[] mappers = resourceResolver.getResources(mapperLocation);
-                    resources.addAll(Arrays.asList(mappers));
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
-        }
-        return resources.toArray(new Resource[resources.size()]);
+
+
+
+    @Bean
+    public PaginationInnerInterceptor paginationInnerInterceptor() {
+        return new PaginationInnerInterceptor();
     }
-
-
 
 
 }

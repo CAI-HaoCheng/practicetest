@@ -69,10 +69,10 @@
         dname=#{dname}, loc=#{loc}
         where deptno = #{deptno}
     </update>
-    <select id="findByPrimaryKey" resultType="org.tutorial.model.entity.DeptDO">
+    <select id="findByPrimaryKey" resultType="DeptDO">
         SELECT deptno , dname, loc FROM dept2 where deptno = #{deptno}
     </select>
-    <select id="getAll" resultMap="resultDept">
+    <select id="getAll" resultType="DeptDO">
         SELECT deptno,dname,loc FROM dept2
     </select>
     <select id="getEmpsByDeptno" resultMap="testEmp">
